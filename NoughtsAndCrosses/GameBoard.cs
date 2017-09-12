@@ -8,6 +8,42 @@ namespace NoughtsAndCrosses
 {
     public class GameBoard
     {
+        public int[] UserInputTile()
+        {
+            Console.Write("\nInput X coordinate of tile\n\n>>> ");
+            int tileX = Int32.Parse(Console.ReadLine());
+
+            Console.Write("Input Y coordinate of tile\n\n>>> ");
+            int tileY = Int32.Parse(Console.ReadLine());
+            
+            int[] TileCoords = new int[] { tileX, tileY };
+
+            if (tileX < Math.Sqrt(board.Length) && tileY < Math.Sqrt(board.Length))
+            {
+                if (board[tileX, tileY] == 'E')
+                {
+                    return TileCoords;
+                }
+
+                else
+                {                    
+                    return null;
+                }
+            }
+            else
+            {                
+                return null;
+            }
+            
+        }
+
+        public char UserInputValue()
+        {
+            Console.Write("What do you want to change the selected tile to\n\n>>> ");
+            char value = Console.ReadLine().Single();
+            return value;
+        }
+
         private char[,] board = new char[3,3];
 
         public GameBoard()
@@ -30,39 +66,72 @@ namespace NoughtsAndCrosses
         {
             bool result = false;
 
-            var validValues = new char[] { 'x', 'o', 'e', 'X', 'O', 'E' };
-            if (!validValues.Contains(value))
+            var validValues = new char[] { 'x', 'o', 'e'};
+            if (!validValues.Contains(Char.ToLower(value)))
             {
                 Console.WriteLine("Invalid Character");
                 //result = false;
             }
             else
             {
-                board[i, j] = value;
+                board[i, j] = Char.ToUpper(value);
                 result = true;
             }
-
             return result;
-        }
-
-        public int GetLegnth()
-        {
-            return board.Length;
         }
 
         public void PrintBoard()
         {
+            Console.Clear();
             for (int i = 0; i < 3; i++)
             {
                 Console.Write("[");
 
                 for (int j = 0; j < 3; j++)
                 {
-                    Console.Write($"{board[i, j]}," );
+                    if (board[i, j] == 'E')
+                    {
+                        Console.Write(" ,");
+                    }
+                    else
+                    {
+                        Console.Write($"{board[i, j]},");
+                    }
                 }
-
                 Console.WriteLine("]");
             }
+        }
+
+        public bool ValidateGame()
+        {
+            bool result = false;
+
+            for (int i = 0; i < 3; ++i)
+            {
+                
+                if (board[i, 0] == board[i, 1] && board[i, 1] == board[i, 2] && board[i, 0] != 'E')
+                {
+                    result = true;
+                }
+                else
+                {
+                    if (board[0, i] == board[1, i] && board[1, i] == board[2, i] && board[0, i] != 'E')
+                    {
+                        result = true;
+                    }
+                }
+            }
+
+            if (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] && board[2, 2] != 'E')
+            {
+                result = true;
+            }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
 
         [Obsolete("Please use the new method instead")]
@@ -71,5 +140,6 @@ namespace NoughtsAndCrosses
             return board;
         }
     }
+
 }
 

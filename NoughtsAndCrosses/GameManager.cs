@@ -20,12 +20,19 @@ namespace NoughtsAndCrosses
 
 
         public static void UserMove(GameBoard thisboard)
-        {
-            User user = new User();
-            int tile = Int32.Parse(user.UserInputTile());
-            char value = user.UserInputValue();
+        {            
+            int[] tileCoords = thisboard.UserInputTile();
+            if (tileCoords != null)
+            {
+                char value = thisboard.UserInputValue();
+                thisboard.SetValue(tileCoords[0], tileCoords[1], value);
+                thisboard.PrintBoard();
+            }
+            else
+            {
+                Console.WriteLine("You cant play there!");
+            }
 
-            
             /// Implement in version 2.0
             //for (int i = 0; i < Math.Sqrt(board.Length); i++)
             //{
@@ -46,7 +53,7 @@ namespace NoughtsAndCrosses
             //    }
             //}
             
-            
+
         }
     }
 }

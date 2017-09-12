@@ -12,18 +12,16 @@ namespace NoughtsAndCrosses
         {
             var gameBoard = GameManager.StartGame();
 
+            bool IsFinished = false;
+            while (!IsFinished)
+            {
+                GameManager.UserMove(gameBoard);
+                IsFinished = gameBoard.ValidateGame();
+            }
+
+            Console.WriteLine("You Won!");
+
             Console.ReadKey();
-
-            //1. Create a board
-
-
-            //1.1 User entry
-
-            //while(available moves)
-            //2. Request tile entry
-
-            //3. evaluate game
-            //3.1 will update 
 
             //4. print board
             //4.1 if winner print message
