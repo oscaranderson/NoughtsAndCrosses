@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NoughtsAndCrosses
 {
-    public class GameBoard
+    public class GameBoard : IGameBoard
     {
         public int[] UserInputTile()
         {
@@ -102,37 +102,55 @@ namespace NoughtsAndCrosses
             }
         }
 
+        public char Winner = 'E';
+
+        public int RowValue;
+
+        //public char GetWinner()
+        //{
+        //    int winner;
+        //    if (RowValue == 360)
+        //    {
+                
+        //    }            
+        //}
+
         public bool ValidateGame()
-        {
+        {            
             bool result = false;
 
-            for (int i = 0; i < 3; ++i)
+            for (int i = 0; i < 3; i++)
             {
                 
                 if (board[i, 0] == board[i, 1] && board[i, 1] == board[i, 2] && board[i, 0] != 'E')
                 {
                     result = true;
+                    RowValue = board[i, 0] += board[i, 1] += board[i, 2];
                 }
                 else
                 {
                     if (board[0, i] == board[1, i] && board[1, i] == board[2, i] && board[0, i] != 'E')
                     {
                         result = true;
+                        RowValue = board[0, i] += board[1, i] += board[2, i];
                     }
                 }
             }
-
-            if (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] && board[2, 2] != 'E')
+            if (result != true)
             {
-                result = true;
+                if (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] && board[2, 2] != 'E')
+                {
+                    result = true;
+                    RowValue = board[0, 0] += board[1, 1] += board[2, 2];
+                }
+                else
+                {
+                    result = false;
+                }
             }
-            else
-            {
-                result = false;
-            }
-
+            
             return result;
-        }
+        }        
 
         [Obsolete("Please use the new method instead")]
         public char[,] GetBoard()

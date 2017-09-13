@@ -10,7 +10,7 @@ namespace NoughtsAndCrosses
     {
         static void Main(string[] args)
         {
-            var gameBoard = GameManager.StartGame();
+            var gameBoard = GameManager.StartGame(new GameBoard());
 
             bool IsFinished = false;
             while (!IsFinished)
@@ -18,8 +18,8 @@ namespace NoughtsAndCrosses
                 GameManager.UserMove(gameBoard);
                 IsFinished = gameBoard.ValidateGame();
             }
-
-            Console.WriteLine("You Won!");
+            //if (gameBoard.)
+            Console.WriteLine("\nYou Won!");
 
             Console.ReadKey();
 

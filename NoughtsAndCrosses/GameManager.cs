@@ -9,9 +9,8 @@ namespace NoughtsAndCrosses
     public static class GameManager
     {
 
-        public static GameBoard StartGame()
+        public static IGameBoard StartGame(IGameBoard gameBoard)
         {
-            var gameBoard = new GameBoard();
             gameBoard.PrintBoard();
 
             //UserMove(board, gameBoard);
@@ -19,7 +18,7 @@ namespace NoughtsAndCrosses
         }
 
 
-        public static void UserMove(GameBoard thisboard)
+        public static void UserMove(IGameBoard thisboard)
         {            
             int[] tileCoords = thisboard.UserInputTile();
             if (tileCoords != null)
