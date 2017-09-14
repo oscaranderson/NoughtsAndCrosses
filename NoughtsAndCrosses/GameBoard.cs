@@ -1,20 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoughtsAndCrosses
 {
     public class GameBoard : IGameBoard
     {
+        private IInputOutput _printer;
+
+        public GameBoard(IInputOutput printer)
+        {
+            _printer = printer;
+        }
+
         public int[] UserInputTile()
         {
-            Console.Write("\nInput X coordinate of tile\n\n>>> ");
-            int tileX = Int32.Parse(Console.ReadLine());
+            _printer.Print("\nInput X coordinate of tile\n\n>>> ");
+            int tileX = Int32.Parse(_printer.Read());
 
-            Console.Write("Input Y coordinate of tile\n\n>>> ");
-            int tileY = Int32.Parse(Console.ReadLine());
+            _printer.Print("Input Y coordinate of tile\n\n>>> ");
+            int tileY = Int32.Parse(_printer.Read());
             
             int[] TileCoords = new int[] { tileX, tileY };
 
@@ -26,7 +30,7 @@ namespace NoughtsAndCrosses
                 }
 
                 else
-                {                    
+                {
                     return null;
                 }
             }
@@ -39,8 +43,8 @@ namespace NoughtsAndCrosses
 
         public char UserInputValue()
         {
-            Console.Write("What do you want to change the selected tile to\n\n>>> ");
-            char value = Console.ReadLine().Single();
+            _printer.Print("What do you want to change the selected tile to\n\n>>> ");
+            char value = _printer.Read().Single();
             return value;
         }
 
@@ -51,13 +55,13 @@ namespace NoughtsAndCrosses
             CreateBoard();
         }
 
-        private void CreateBoard()
+        public void CreateBoard()
         {
             for (int i = 0; i < 3; ++i)
             {
                 for (int j = 0; j < 3; ++j)
                 {
-                    SetValue(i, j, 'e');
+                    SetValue(i, j, 'E');
                 }
             }       
         }
@@ -69,7 +73,7 @@ namespace NoughtsAndCrosses
             var validValues = new char[] { 'x', 'o', 'e'};
             if (!validValues.Contains(Char.ToLower(value)))
             {
-                Console.WriteLine("Invalid Character");
+                _printer.Print("Invalid Character", true);
                 //result = false;
             }
             else
@@ -85,35 +89,22 @@ namespace NoughtsAndCrosses
             Console.Clear();
             for (int i = 0; i < 3; i++)
             {
-                Console.Write("[");
+                _printer.Print("[");
 
                 for (int j = 0; j < 3; j++)
                 {
                     if (board[i, j] == 'E')
                     {
-                        Console.Write(" ,");
+                        _printer.Print(" ,");
                     }
                     else
                     {
-                        Console.Write($"{board[i, j]},");
+                        _printer.Print($"{board[i, j]},");
                     }
                 }
-                Console.WriteLine("]");
+                _printer.Print("]", true);
             }
         }
-
-        public char Winner = 'E';
-
-        public int RowValue;
-
-        //public char GetWinner()
-        //{
-        //    int winner;
-        //    if (RowValue == 360)
-        //    {
-                
-        //    }            
-        //}
 
         public bool ValidateGame()
         {            
@@ -125,14 +116,12 @@ namespace NoughtsAndCrosses
                 if (board[i, 0] == board[i, 1] && board[i, 1] == board[i, 2] && board[i, 0] != 'E')
                 {
                     result = true;
-                    RowValue = board[i, 0] += board[i, 1] += board[i, 2];
                 }
                 else
                 {
                     if (board[0, i] == board[1, i] && board[1, i] == board[2, i] && board[0, i] != 'E')
                     {
                         result = true;
-                        RowValue = board[0, i] += board[1, i] += board[2, i];
                     }
                 }
             }
@@ -141,7 +130,6 @@ namespace NoughtsAndCrosses
                 if (board[0, 0] == board[1, 1] && board[1, 1] == board[2, 2] && board[2, 2] != 'E')
                 {
                     result = true;
-                    RowValue = board[0, 0] += board[1, 1] += board[2, 2];
                 }
                 else
                 {
@@ -158,6 +146,5 @@ namespace NoughtsAndCrosses
             return board;
         }
     }
-
 }
 

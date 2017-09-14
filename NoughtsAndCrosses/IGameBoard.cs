@@ -8,5 +8,13 @@
         int[] UserInputTile();
         char UserInputValue();
         bool ValidateGame();
+        void CreateBoard();
+    }
+
+    public interface IGameBoardWinning : IGameBoard
+    {
+        char GetWinner();
+        bool IsDraw();
+        void PlayerStarts(char player);
     }
 }

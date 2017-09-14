@@ -45,12 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EasyGameBoard.cs" />
+    <Compile Include="ConsolePrinter.cs" />
+    <Compile Include="IPrinter.cs" />
+    <Compile Include="LoggingGameBoard.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="IGameBoard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UpgradedGameBoard.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

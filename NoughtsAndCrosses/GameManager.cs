@@ -1,25 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NoughtsAndCrosses
 {
     public static class GameManager
     {
-
         public static IGameBoard StartGame(IGameBoard gameBoard)
         {
+            gameBoard.CreateBoard();
             gameBoard.PrintBoard();
 
-            //UserMove(board, gameBoard);
             return gameBoard;
         }
 
+        public static bool ChooseStartingPlayer(IGameBoard gameBoard, IInputOutput printer)
+        {
+            printer.Print("\nWhich player starts first O or X\n\n>>> ");
+            var choice = 'E';
+            bool completed;
+            try
+            {
+                choice = (char)Convert.ChangeType(printer.Read(), typeof(char));
+                if (char.ToUpper(choice) == 'O' || char.ToUpper(choice) == 'X')
+                {
+                    completed = true;
+                    ((IGameBoardWinning)gameBoard).PlayerStarts(char.ToUpper(choice));
+                }
+                else
+                {
+                    gameBoard.PrintBoard();
+                    printer.Print("\nPlease choose either O or X", true);
+                    completed = false;
+                }
+            }
+            catch
+            {
+                gameBoard.PrintBoard();
+                printer.Print("\nPlease choose either O or X", true);
+                completed = false;
+            }
+            return completed;
+        }
 
-        public static void UserMove(IGameBoard thisboard)
-        {            
+        public static void UserMove(IGameBoard thisboard, IInputOutput printer)
+        {   
             int[] tileCoords = thisboard.UserInputTile();
             if (tileCoords != null)
             {
@@ -29,7 +52,8 @@ namespace NoughtsAndCrosses
             }
             else
             {
-                Console.WriteLine("You cant play there!");
+                thisboard.PrintBoard();
+                printer.Print("\nYou cant play there!", true);                
             }
 
             /// Implement in version 2.0
