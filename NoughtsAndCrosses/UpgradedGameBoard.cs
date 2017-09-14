@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace NoughtsAndCrosses
 {
-    class UpgradedGameBoard : IGameBoardWinning
+    public class UpgradedGameBoard : IGameBoardWinning
     {
         private IGameBoard _gameBoard;
 
@@ -77,7 +77,8 @@ namespace NoughtsAndCrosses
 
             catch
             {
-                return null;
+                int[] incorrectcode = { 10, 10 };
+                return incorrectcode;
             }
             int[] TileCoords = { (int)Convert.ChangeType(Convert.ChangeType(TestCoordX, typeof(string)), typeof(int)), (int)Convert.ChangeType(Convert.ChangeType(TestCoordY, typeof(string)), typeof(int)) };
 
@@ -90,12 +91,14 @@ namespace NoughtsAndCrosses
 
                 else
                 {
-                    return null;
+                    int[] incorrectcode = { 20, 20 };
+                    return incorrectcode;
                 }
             }
             else
             {
-                return null;
+                int[] incorrectcode = { 30, 30 };
+                return incorrectcode;
             }
         }
 

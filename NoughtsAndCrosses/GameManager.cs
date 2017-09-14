@@ -44,16 +44,29 @@ namespace NoughtsAndCrosses
         public static void UserMove(IGameBoard thisboard, IInputOutput printer)
         {   
             int[] tileCoords = thisboard.UserInputTile();
-            if (tileCoords != null)
+            if(tileCoords == null)
+                printer.Print("\nInvalid input!", true);
+
+            if (tileCoords[0] == 10)
+            {
+                thisboard.PrintBoard();
+                printer.Print("\nYou must enter 2 numbers!", true);
+            }
+            else if (tileCoords[0] == 20)
+            {
+                thisboard.PrintBoard();
+                printer.Print("\nYou can't play there!", true);
+            }
+            else if (tileCoords[0] == 30)
+            {
+                thisboard.PrintBoard();
+                printer.Print("\nYou can't play there!", true);
+            }
+            else
             {
                 char value = thisboard.UserInputValue();
                 thisboard.SetValue(tileCoords[0], tileCoords[1], value);
                 thisboard.PrintBoard();
-            }
-            else
-            {
-                thisboard.PrintBoard();
-                printer.Print("\nYou cant play there!", true);                
             }
 
             /// Implement in version 2.0

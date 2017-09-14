@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsolePrinter.cs" />
-    <Compile Include="IPrinter.cs" />
+    <Compile Include="IInputOutput.cs" />
     <Compile Include="LoggingGameBoard.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="GameManager.cs" />

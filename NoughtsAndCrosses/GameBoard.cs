@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace NoughtsAndCrosses
 {
+    [Obsolete("Plan to be removed on later versions")]
     public class GameBoard : IGameBoard
     {
         private IInputOutput _printer;
