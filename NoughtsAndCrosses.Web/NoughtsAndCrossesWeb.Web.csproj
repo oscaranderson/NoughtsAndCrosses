@@ -208,13 +208,13 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NoughtsAndCrosses\NoughtsAndCrosses.csproj">
-      <Project>{a7eb9f4f-f127-4ee2-ae7e-47ae6a720487}</Project>
-      <Name>NoughtsAndCrosses</Name>
-    </ProjectReference>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
+    <ProjectReference Include="..\NoughtsAndCrosses.Business\NoughtsAndCrosses.Business.csproj">
+      <Project>{ec094e2d-1f57-4edd-94e8-82dde5eda112}</Project>
+      <Name>NoughtsAndCrosses.Business</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

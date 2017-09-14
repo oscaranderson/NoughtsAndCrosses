@@ -1,39 +1,19 @@
-﻿@using NoughtsAndCrosses
-
+﻿@using NoughtsAndCrosses.Business
 @model NoughtsAndCrosses.Web.Models.GameTestViewModel
 
 @{
     ViewBag.Title = "GameTest";
 }
 
-<h2>GameTest</h2>
+<h2>Welcome to my Awesome game!!!</h2>
 
-<div>
-    <h4>User</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Age)
-        </dt>
+@if (Model.IsFinished)
+{
+    @Model.Winner
+}
 
-        <dd>
-            @Html.DisplayFor(model => model.Age)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
 
 <table>
     @for (int i = 0; i < 3; ++i)
@@ -41,8 +21,63 @@
         <tr>
             @for (int j = 0; j < 3; ++j)
             {
+                @*<td>@Html.ActionLink(Model.GameBoard.GetBoard()[i, j].ToString(), "SetValue", Model.GameBoard.SetValue(0, 0, 'X'))</td>*@
                 <td>@Model.GameBoard.GetBoard()[i,j]</td>
             }
         </tr>
     }
 </table>
+
+<br/>
+
+<p>Enter your move</p>
+
+<form action="/home/gametest" method="post" >
+    
+    <div>
+        <label for="x">X</label>
+        <input type="text" id="x" name="x" maxlength="1"/>
+    </div>
+
+
+    <div>
+        <label for="y">Y</label>
+        <input type="text" id="y" name="y"  maxlength="1"/>
+    </div>
+
+
+    <div>
+        <label for="c">C</label>
+        <input type="text" id="c" name="c"  maxlength="1"/>
+    </div>
+
+    <input type="submit" value="Submit"/>
+</form>
+
+
+@*<div>
+        <h4>User</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Age)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Age)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>*@

@@ -11,6 +11,9 @@ namespace NoughtsAndCrosses.Web.Models
         public string Name { get; set; }
         public int Age { get; set; }
 
-        public IGameBoard GameBoard { get; set; }
+        public IGameBoardWinner GameBoard { get; set; }
+
+        public bool IsFinished { get; set; }
+        public string Winner { get; set; }
     }
 }
