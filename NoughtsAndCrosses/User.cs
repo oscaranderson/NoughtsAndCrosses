@@ -8,7 +8,7 @@
             IsMyGo = _ismygo;
             RoundsWon = _roundswon;
         }
-
+        
         public bool IsMyGo { get; set; }
 
         public char MyLetter { get; set; }

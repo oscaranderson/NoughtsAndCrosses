@@ -42,11 +42,6 @@ namespace NoughtsAndCrosses
                 printer.Print("\nDraw!", true);
 
             Console.ReadKey();
-
-            //4. print board
-            //4.1 if winner print message
-
-            //end
         }
 
         private static void StartIoC()
