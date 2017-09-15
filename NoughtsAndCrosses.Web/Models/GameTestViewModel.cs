@@ -8,12 +8,11 @@ namespace NoughtsAndCrosses.Web.Models
 {
     public class GameTestViewModel
     {
-        public string Name { get; set; }
-        public int Age { get; set; }
-
         public IGameBoardWinner GameBoard { get; set; }
-
+        public string CurrentPlayer { get; set; }
         public bool IsFinished { get; set; }
         public string Winner { get; set; }
+        public string Info { get; set; }
+        public bool IsStarting { get; set; }
     }
 }

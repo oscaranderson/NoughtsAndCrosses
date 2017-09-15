@@ -45,13 +45,12 @@ namespace NoughtsAndCrosses.Web.Controllers
             if (gameViewModel == null)
             {
                 gameViewModel = new GameTestViewModel();
-                gameViewModel.Name = "Oscar";
-                gameViewModel.Age = 15;
                 gameViewModel.GameBoard = new UpgradedGameBoard();
                 gameViewModel.GameBoard.CreateBoard();
+                gameViewModel.IsStarting = true;
                 SetBoardFromSession(gameViewModel);
             }
-
+            gameViewModel.IsStarting = false;
             return gameViewModel;
         }
 
@@ -64,7 +63,10 @@ namespace NoughtsAndCrosses.Web.Controllers
         public ActionResult GameTest(int x, int y, char c)
         {
             var gameViewModel = GetBoardFromSession();
-            gameViewModel.GameBoard.SetValue(x,y,c);
+            if (!gameViewModel.GameBoard.SetTileValue(x, y, c))
+            {
+                gameViewModel.Info = "Invalid Move! Please Try again";
+            }
 
             if (gameViewModel.GameBoard.ValidateGame())
             {
@@ -85,13 +87,12 @@ namespace NoughtsAndCrosses.Web.Controllers
                 var winner = gameViewModel.GameBoard.GetWinner();
                 switch (winner)
                 {
-                    case 'x':
+                    case 'X':
                         gameViewModel.Winner = "Crosses Wins!";
                         break;
-                    case 'o':
+                    case 'O':
                         gameViewModel.Winner = "Noughts Wins!";
                         break;
-
                     default:
                     gameViewModel.Winner = "Draw!";
                         break;

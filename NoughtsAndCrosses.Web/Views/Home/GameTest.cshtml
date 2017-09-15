@@ -7,7 +7,9 @@
 
 <h2>Welcome to my Awesome game!!!</h2>
 
-
+<div>
+    <p>@Model.Info</p>
+</div>
 
 @if (Model.IsFinished)
 {
@@ -22,6 +24,7 @@
             @for (int j = 0; j < 3; ++j)
             {
                 @*<td>@Html.ActionLink(Model.GameBoard.GetBoard()[i, j].ToString(), "SetValue", Model.GameBoard.SetValue(0, 0, 'X'))</td>*@
+
                 <td>@Model.GameBoard.GetBoard()[i,j]</td>
             }
         </tr>
@@ -30,21 +33,30 @@
 
 <br/>
 
-<p>Enter your move</p>
+<p>@Model.CurrentPlayer to play!</p>
 
-<form action="/home/gametest" method="post" >
-    
+@if (Model.IsStarting)
+{
+    <form action="/home/gametest" method="post">
+        <div>
+            <label for="PlayerStart">Which Player Starts?</label>
+            <input type="text" id="PlayerStart" name="PlayerStartInput" maxlength="1"/>
+        </div>
+
+        <input type="submit" value="Select Player"\>
+    </form>
+}
+
+<form action="/home/gametest" method="post" >    
     <div>
         <label for="x">X</label>
-        <input type="text" id="x" name="x" maxlength="1"/>
+        <input type="number" id="x" name="x" maxlength="1"/>
     </div>
-
 
     <div>
         <label for="y">Y</label>
-        <input type="text" id="y" name="y"  maxlength="1"/>
+        <input type="number" id="y" name="y" maxlength="1"/>
     </div>
-
 
     <div>
         <label for="c">C</label>
