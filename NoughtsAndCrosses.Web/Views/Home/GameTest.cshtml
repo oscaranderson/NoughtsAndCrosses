@@ -14,44 +14,50 @@
         font-weight: bold;
     }
 
-    .x{
+    .x {
         color: red;
         fill: orangered;
         font-size: xx-large;
     }
+
     .o {
         color: blue;
         fill: lightblue;
         font-size: xx-large;
     }
-    .Error{
-        color:red;
-        font-weight:bolder;
+
+    .Error {
+        color: red;
+        font-weight: bolder;
     }
-    .title{
-        font-weight:900;
+
+    .title {
+        font-weight: 900;
         opacity: 0.7;
         text-align: center;
         font-size: xx-large;
     }
-    .submittile{
+
+    .submittile {
         width: 85px;
         height: 85px;
         font-size: xx-large;
     }
-    .toplay{
+
+    .toplay {
         font-size: x-large;
         font-weight: bold;
         text-align: center;
     }
-    .newgame{
+
+    .newgame {
         font-size: large;
     }
 </style>
 
 <h2 class="title">Noughts and Crosses</h2>
 
-<br/>
+<br />
 
 <div>
     <p class="toplay">@Model.Info</p>
@@ -71,36 +77,38 @@
 
 <br />
 
-<table border="1", align="center">
+<table border="1" , align="center">
     @for (int i = 0; i < 3; ++i)
     {
         <tr>
             @for (int j = 0; j < 3; ++j)
             {
+                var tile = Model.GameBoard.GetBoard()[i, j].ToString();
                 <td>
-                    @if (( Model.GameBoard.GetBoard()[i, j] == 'E'))
+                    @if ((tile[0] == 'E'))
                     {
-                    using (Html.BeginForm("GameTest", "Home"))
-                    {
-                    <input name="x" value=@i type="hidden" />
-                    <input name="y" value=@j type="hidden" />
+                        using (Html.BeginForm("GameTest", "Home"))
+                        {
+                            <input name="x" value=@i type="hidden" />
+                            <input name="y" value=@j type="hidden" />
 
-                    <input class="submittile" type="submit" value=" "/>
+                            <input class="submittile" type="submit" value=" " />
                         }
                     }
                     else
                     {
-                        if (Model.GameBoard.GetBoard()[i, j] == 'X')
+                        if (tile[0] == 'X')
                         {
-                            <p class="x">@(Html.Encode(Model.GameBoard.GetBoard()[i, j]))</p>
+                            <p class="x">@tile</p>
                         }
-                        else if (Model.GameBoard.GetBoard()[i, j] == 'O')
+                        else if (tile[0] == 'O')
                         {
-                            <p class="o">@(Html.Encode(Model.GameBoard.GetBoard()[i, j]))</p>
+                            <p class="o">@tile</p>
                         }
                         else
                         {
-                            <p class="Error">ERROR!</p>
+                            @*<p class="Error">ERROR!</p>*@
+                            @tile
                         }
                     }
 
@@ -111,12 +119,12 @@
 </table>
 
 
-<br/>
+<br />
 
 @using (Html.BeginForm("GameTest", "Home"))
 {
-    <input name="NewGame" value="true" type="hidden"/>
-    <input class="newgame" type="submit" value="New Game"/>
+    <input name="NewGame" value="true" type="hidden" />
+    <input class="newgame" type="submit" value="New Game" />
 }
 
 @*<div>

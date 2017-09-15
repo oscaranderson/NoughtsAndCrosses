@@ -35,7 +35,7 @@ namespace NoughtsAndCrosses.Business
             bool result = false;
             if (_gameBoard[i,j] == 'E' && i < Math.Sqrt(_gameBoard.Length) && j < Math.Sqrt(_gameBoard.Length) && ValidInputs.Contains(char.ToUpper(value)))
             {
-                _gameBoard[i, j] = char.ToUpper(value);
+                _gameBoard[i, j] = value.ToString()[0];
                 result = true;
             }
             else
@@ -91,14 +91,14 @@ namespace NoughtsAndCrosses.Business
                 if (_gameBoard[i, 0] == _gameBoard[i, 1] && _gameBoard[i, 1] == _gameBoard[i, 2] && _gameBoard[i, 0] != 'E')
                 {
                     result = true;
-                    RowValue = _gameBoard[i, 0] += _gameBoard[i, 1] += _gameBoard[i, 2];
+                    RowValue = _gameBoard[i, 0] + _gameBoard[i, 1] + _gameBoard[i, 2];
                 }
                 else
                 {
                     if (_gameBoard[0, i] == _gameBoard[1, i] && _gameBoard[1, i] == _gameBoard[2, i] && _gameBoard[0, i] != 'E')
                     {
                         result = true;
-                        RowValue = _gameBoard[0, i] += _gameBoard[1, i] += _gameBoard[2, i];
+                        RowValue = _gameBoard[0, i] + _gameBoard[1, i] + _gameBoard[2, i];
                     }
                 }
             }
@@ -107,14 +107,14 @@ namespace NoughtsAndCrosses.Business
                 if (_gameBoard[0, 0] == _gameBoard[1, 1] && _gameBoard[1, 1] == _gameBoard[2, 2] && _gameBoard[1, 1] != 'E')
                 {
                     result = true;
-                    RowValue = _gameBoard[0, 0] += _gameBoard[1, 1] += _gameBoard[2, 2];
+                    RowValue = _gameBoard[0, 0] + _gameBoard[1, 1] + _gameBoard[2, 2];
                 }
                 else
                 {
                     if (_gameBoard[0, 2] == _gameBoard[1, 1] && _gameBoard[1, 1] == _gameBoard[2, 0] && _gameBoard[2, 0] != 'E')
                     {
                         result = true;
-                        RowValue = _gameBoard[0, 2] += _gameBoard[1, 1] += _gameBoard[2, 0];
+                        RowValue = _gameBoard[0, 2] + _gameBoard[1, 1] + _gameBoard[2, 0];
                     }                    
                 }
             }            
