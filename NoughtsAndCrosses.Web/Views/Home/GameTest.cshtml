@@ -5,6 +5,20 @@
     ViewBag.Title = "GameTest";
 }
 
+<style>
+    td {
+        width: 50px;
+        height:50px;
+        text-align:center;
+        vertical-align: central;
+        font-weight: bold;
+    }
+
+    .x{
+        color: red;
+    }
+</style>
+
 <h2>Welcome to my Awesome game!!!</h2>
 
 <div>
@@ -17,51 +31,67 @@
 }
 
 
-<table>
+
+@using(Html.BeginForm("GameTest", "Home"))
+{
+    <input name="x" value="1" type="hidden" />
+    <input name="x" value="1" type="hidden" />
+    <select name="symbol">
+        <option value="0">0</option>
+        <option value="x">X</option>
+        <option value="y">Y</option>
+    </select>
+
+    <input type="submit" value=">" />
+}
+
+
+
+
+<table border="1">
     @for (int i = 0; i < 3; ++i)
     {
         <tr>
             @for (int j = 0; j < 3; ++j)
             {
-                @*<td>@Html.ActionLink(Model.GameBoard.GetBoard()[i, j].ToString(), "SetValue", Model.GameBoard.SetValue(0, 0, 'X'))</td>*@
+                var temp = Model.GameBoard.GetBoard()[i, j];
+                
 
-                <td>@Model.GameBoard.GetBoard()[i,j]</td>
+                <td class="@(temp == 'X' ? "x" : "nothing" )">@if ((temp == 'E'))
+                {
+                    <p>[#]</p>
+                }
+
+                else
+                {
+                    <p>[@(Html.Encode(temp))]</p>
+                }
+                </td>
             }
         </tr>
     }
 </table>
 
+
 <br/>
 
 <p>@Model.CurrentPlayer to play!</p>
 
-@if (Model.IsStarting)
-{
-    <form action="/home/gametest" method="post">
-        <div>
-            <label for="PlayerStart">Which Player Starts?</label>
-            <input type="text" id="PlayerStart" name="PlayerStartInput" maxlength="1"/>
-        </div>
-
-        <input type="submit" value="Select Player"\>
-    </form>
-}
-
 <form action="/home/gametest" method="post" >    
+    <input type="hidden" value="@Model.CurrentPlayer" name="MyProperty.SomeProperty"/>
     <div>
-        <label for="x">X</label>
-        <input type="number" id="x" name="x" maxlength="1"/>
+        @Html.LabelFor(m => m.X, "Enter X")
+        @Html.TextBoxFor(m => m.X)
+        @Html.ValidationMessageFor(m => m.X)
     </div>
 
     <div>
-        <label for="y">Y</label>
-        <input type="number" id="y" name="y" maxlength="1"/>
+        @Html.LabelFor(m => m.Y, "Enter Y")
+        @Html.TextBoxFor(m => m.Y)
+        @Html.ValidationMessageFor(m => m.Y)
     </div>
 
-    <div>
-        <label for="c">C</label>
-        <input type="text" id="c" name="c"  maxlength="1"/>
-    </div>
+    <input type="button" value="New Game" onclick="NewGame">
 
     <input type="submit" value="Submit"/>
 </form>

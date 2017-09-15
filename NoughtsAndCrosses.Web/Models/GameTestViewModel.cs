@@ -6,10 +6,10 @@ using NoughtsAndCrosses.Web.Models;
 
 namespace NoughtsAndCrosses.Web.Models
 {
-    public class GameTestViewModel
+    public class GameTestViewModel : SubmitTileViewModel
     {
         public IGameBoardWinner GameBoard { get; set; }
-        public string CurrentPlayer { get; set; }
+        public char CurrentPlayer { get; set; }
         public bool IsFinished { get; set; }
         public string Winner { get; set; }
         public string Info { get; set; }

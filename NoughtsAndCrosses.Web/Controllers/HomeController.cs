@@ -48,6 +48,7 @@ namespace NoughtsAndCrosses.Web.Controllers
                 gameViewModel.GameBoard = new UpgradedGameBoard();
                 gameViewModel.GameBoard.CreateBoard();
                 gameViewModel.IsStarting = true;
+                gameViewModel.CurrentPlayer = 'X';
                 SetBoardFromSession(gameViewModel);
             }
             gameViewModel.IsStarting = false;
@@ -59,15 +60,37 @@ namespace NoughtsAndCrosses.Web.Controllers
                 Session[GameSessionKey] = gameTestViewModel;
         }
 
-        [HttpPost]
-        public ActionResult GameTest(int x, int y, char c)
+        public void NewGame()
         {
+            var gameViewModel = Session[GameSessionKey] as GameTestViewModel;
+            gameViewModel = new GameTestViewModel();
+            gameViewModel.GameBoard = new UpgradedGameBoard();
+            gameViewModel.GameBoard.CreateBoard();
+            gameViewModel.IsStarting = true;
+            gameViewModel.CurrentPlayer = 'X';
+            SetBoardFromSession(gameViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult GameTest(SubmitTileViewModel submitTileViewModel)
+        {
+            if (!ModelState.IsValid)
+                return RedirectToAction("GameTest");
+
             var gameViewModel = GetBoardFromSession();
-            if (!gameViewModel.GameBoard.SetTileValue(x, y, c))
+            if (!gameViewModel.GameBoard.SetTileValue(submitTileViewModel.X, submitTileViewModel.Y, gameViewModel.CurrentPlayer))
             {
                 gameViewModel.Info = "Invalid Move! Please Try again";
             }
 
+            if (gameViewModel.CurrentPlayer == 'O')
+            {
+                gameViewModel.CurrentPlayer = 'X';
+            }
+            else
+            {
+                gameViewModel.CurrentPlayer = 'O';
+            }
             if (gameViewModel.GameBoard.ValidateGame())
             {
                 gameViewModel.IsFinished = true;
@@ -89,20 +112,23 @@ namespace NoughtsAndCrosses.Web.Controllers
                 {
                     case 'X':
                         gameViewModel.Winner = "Crosses Wins!";
+                        gameViewModel = null;
+                        GetBoardFromSession();
                         break;
                     case 'O':
                         gameViewModel.Winner = "Noughts Wins!";
+                        gameViewModel = null;
+                        GetBoardFromSession();
                         break;
                     default:
                     gameViewModel.Winner = "Draw!";
+                        gameViewModel = null;
+                        GetBoardFromSession();
                         break;
-                }
+                }            
             }
-
             return RedirectToAction("GameTest");
         }
-
-        public string PrintText;
 
     }
 }
