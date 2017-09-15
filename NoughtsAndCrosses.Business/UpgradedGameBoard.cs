@@ -5,9 +5,6 @@ namespace NoughtsAndCrosses.Business
 {
     public class UpgradedGameBoard : IGameBoardWinner
     {
-        User userx = new User('X', false);
-        User usero = new User('O', true);
-
         public char[] ValidInputs = {'O','X'};
 
         private char[,] _gameBoard { get; set; }
@@ -15,21 +12,6 @@ namespace NoughtsAndCrosses.Business
         public UpgradedGameBoard()
         {
             _gameBoard = new char[3, 3];
-        }
-        
-        public void PlayerStarts(char player)
-        {
-            if (player == 'X')
-            {
-                userx.IsMyGo = true;
-                usero.IsMyGo = false;
-                
-            }
-            else if (player == 'O')
-            {
-                userx.IsMyGo = false;
-                usero.IsMyGo = true;
-            }
         }
 
         public char[,] GetBoard()
@@ -51,7 +33,7 @@ namespace NoughtsAndCrosses.Business
         public bool SetTileValue(int i, int j, char value)
         {
             bool result = false;
-            if (i < Math.Sqrt(_gameBoard.Length) && j < Math.Sqrt(_gameBoard.Length) && ValidInputs.Contains(char.ToUpper(value)))
+            if (_gameBoard[i,j] == 'E' && i < Math.Sqrt(_gameBoard.Length) && j < Math.Sqrt(_gameBoard.Length) && ValidInputs.Contains(char.ToUpper(value)))
             {
                 _gameBoard[i, j] = char.ToUpper(value);
                 result = true;

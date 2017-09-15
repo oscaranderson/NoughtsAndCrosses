@@ -11,6 +11,5 @@
     {
         char GetWinner();
         bool IsDraw();
-        void PlayerStarts(char player);
     }
 }

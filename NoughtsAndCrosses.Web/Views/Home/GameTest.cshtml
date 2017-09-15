@@ -7,65 +7,103 @@
 
 <style>
     td {
-        width: 50px;
-        height:50px;
-        text-align:center;
+        width: 100px;
+        height: 100px;
+        text-align: center;
         vertical-align: central;
         font-weight: bold;
     }
 
     .x{
         color: red;
+        fill: orangered;
+        font-size: xx-large;
+    }
+    .o {
+        color: blue;
+        fill: lightblue;
+        font-size: xx-large;
+    }
+    .Error{
+        color:red;
+        font-weight:bolder;
+    }
+    .title{
+        font-weight:900;
+        opacity: 0.7;
+        text-align: center;
+        font-size: xx-large;
+    }
+    .submittile{
+        width: 85px;
+        height: 85px;
+        font-size: xx-large;
+    }
+    .toplay{
+        font-size: x-large;
+        font-weight: bold;
+        text-align: center;
+    }
+    .newgame{
+        font-size: large;
     }
 </style>
 
-<h2>Welcome to my Awesome game!!!</h2>
+<h2 class="title">Noughts and Crosses</h2>
+
+<br/>
 
 <div>
-    <p>@Model.Info</p>
+    <p class="toplay">@Model.Info</p>
 </div>
 
 @if (Model.IsFinished)
 {
-    @Model.Winner
+    <p class="toplay">@Model.Winner</p>
 }
 
+<br />
 
-
-@using(Html.BeginForm("GameTest", "Home"))
+@if (!Model.IsFinished)
 {
-    <input name="x" value="1" type="hidden" />
-    <input name="x" value="1" type="hidden" />
-    <select name="symbol">
-        <option value="0">0</option>
-        <option value="x">X</option>
-        <option value="y">Y</option>
-    </select>
-
-    <input type="submit" value=">" />
+    <p class="toplay">@Model.CurrentPlayer to play</p>
 }
 
+<br />
 
-
-
-<table border="1">
+<table border="1", align="center">
     @for (int i = 0; i < 3; ++i)
     {
         <tr>
             @for (int j = 0; j < 3; ++j)
             {
-                var temp = Model.GameBoard.GetBoard()[i, j];
-                
+                <td>
+                    @if (( Model.GameBoard.GetBoard()[i, j] == 'E'))
+                    {
+                    using (Html.BeginForm("GameTest", "Home"))
+                    {
+                    <input name="x" value=@i type="hidden" />
+                    <input name="y" value=@j type="hidden" />
 
-                <td class="@(temp == 'X' ? "x" : "nothing" )">@if ((temp == 'E'))
-                {
-                    <p>[#]</p>
-                }
+                    <input class="submittile" type="submit" value=" "/>
+                        }
+                    }
+                    else
+                    {
+                        if (Model.GameBoard.GetBoard()[i, j] == 'X')
+                        {
+                            <p class="x">@(Html.Encode(Model.GameBoard.GetBoard()[i, j]))</p>
+                        }
+                        else if (Model.GameBoard.GetBoard()[i, j] == 'O')
+                        {
+                            <p class="o">@(Html.Encode(Model.GameBoard.GetBoard()[i, j]))</p>
+                        }
+                        else
+                        {
+                            <p class="Error">ERROR!</p>
+                        }
+                    }
 
-                else
-                {
-                    <p>[@(Html.Encode(temp))]</p>
-                }
                 </td>
             }
         </tr>
@@ -75,27 +113,11 @@
 
 <br/>
 
-<p>@Model.CurrentPlayer to play!</p>
-
-<form action="/home/gametest" method="post" >    
-    <input type="hidden" value="@Model.CurrentPlayer" name="MyProperty.SomeProperty"/>
-    <div>
-        @Html.LabelFor(m => m.X, "Enter X")
-        @Html.TextBoxFor(m => m.X)
-        @Html.ValidationMessageFor(m => m.X)
-    </div>
-
-    <div>
-        @Html.LabelFor(m => m.Y, "Enter Y")
-        @Html.TextBoxFor(m => m.Y)
-        @Html.ValidationMessageFor(m => m.Y)
-    </div>
-
-    <input type="button" value="New Game" onclick="NewGame">
-
-    <input type="submit" value="Submit"/>
-</form>
-
+@using (Html.BeginForm("GameTest", "Home"))
+{
+    <input name="NewGame" value="true" type="hidden"/>
+    <input class="newgame" type="submit" value="New Game"/>
+}
 
 @*<div>
         <h4>User</h4>

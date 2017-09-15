@@ -58,18 +58,7 @@ namespace NoughtsAndCrosses.Web.Controllers
         private void SetBoardFromSession(GameTestViewModel gameTestViewModel)
         {
                 Session[GameSessionKey] = gameTestViewModel;
-        }
-
-        public void NewGame()
-        {
-            var gameViewModel = Session[GameSessionKey] as GameTestViewModel;
-            gameViewModel = new GameTestViewModel();
-            gameViewModel.GameBoard = new UpgradedGameBoard();
-            gameViewModel.GameBoard.CreateBoard();
-            gameViewModel.IsStarting = true;
-            gameViewModel.CurrentPlayer = 'X';
-            SetBoardFromSession(gameViewModel);
-        }
+        }        
 
         [HttpPost]
         public ActionResult GameTest(SubmitTileViewModel submitTileViewModel)
@@ -78,55 +67,52 @@ namespace NoughtsAndCrosses.Web.Controllers
                 return RedirectToAction("GameTest");
 
             var gameViewModel = GetBoardFromSession();
-            if (!gameViewModel.GameBoard.SetTileValue(submitTileViewModel.X, submitTileViewModel.Y, gameViewModel.CurrentPlayer))
+            if (!gameViewModel.IsFinished)
             {
-                gameViewModel.Info = "Invalid Move! Please Try again";
+                if (!gameViewModel.GameBoard.SetTileValue(submitTileViewModel.X, submitTileViewModel.Y, gameViewModel.CurrentPlayer))
+                {
+                    gameViewModel.Info = "Invalid Move! Please Try again";
+                }
+                else
+                {
+                    if (gameViewModel.CurrentPlayer == 'O')
+                    {
+                        gameViewModel.CurrentPlayer = 'X';
+                    }
+                    else
+                    {
+                        gameViewModel.CurrentPlayer = 'O';
+                    }
+                }
+            }            
+
+            if (gameViewModel.GameBoard.IsDraw())
+            {
+                gameViewModel.IsFinished = true;
+                gameViewModel.Winner = "Its A Draw!";
             }
 
-            if (gameViewModel.CurrentPlayer == 'O')
-            {
-                gameViewModel.CurrentPlayer = 'X';
-            }
-            else
-            {
-                gameViewModel.CurrentPlayer = 'O';
-            }
             if (gameViewModel.GameBoard.ValidateGame())
             {
                 gameViewModel.IsFinished = true;
-                //if (gameViewModel.GameBoard.GetWinner() == 'x')
-                //{
-                //    gameViewModel.Winner = "Crosses Wins!";
-                //}
-                //else if (gameViewModel.GameBoard.GetWinner() == 'o')
-                //{
-                //    gameViewModel.Winner = "Noughts Wins!";
-                //}
-                //else
-                //{
-                //    gameViewModel.Winner = "Draw!";
-                //}
-
                 var winner = gameViewModel.GameBoard.GetWinner();
                 switch (winner)
                 {
                     case 'X':
                         gameViewModel.Winner = "Crosses Wins!";
-                        gameViewModel = null;
-                        GetBoardFromSession();
                         break;
                     case 'O':
                         gameViewModel.Winner = "Noughts Wins!";
-                        gameViewModel = null;
-                        GetBoardFromSession();
-                        break;
-                    default:
-                    gameViewModel.Winner = "Draw!";
-                        gameViewModel = null;
-                        GetBoardFromSession();
-                        break;
-                }            
+                        break;                    
+                }                
             }
+
+            if (submitTileViewModel.NewGame == true)
+            {
+                gameViewModel = null;
+                SetBoardFromSession(gameViewModel);
+            }
+
             return RedirectToAction("GameTest");
         }
 
